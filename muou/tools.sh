@@ -40,6 +40,7 @@ echo "请输入你要使用的功能的序号:                                "
 echo "1)获取本地IP"
 echo "2)校对时间▶"
 echo "3)系统信息"
+echo "4)更改时区"
 read -p "请输入对应功能的序号：" choose
 case $choose in
     1)
