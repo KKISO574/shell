@@ -191,3 +191,4 @@ function lamp1(){
 create_db_t1
 
 menu
+##快更新
