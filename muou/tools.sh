@@ -101,6 +101,12 @@ function sync_time(){
 #----------------------------------------------------------------------------
 
 
+# 函数: 获取IPv4和IPv6地址
+fetch_ip_addresses() {
+  ipv4_address=$(curl -s ipv4.ip.sb)
+  # ipv6_address=$(curl -s ipv6.ip.sb)
+  ipv6_address=$(curl -s --max-time 2 ipv6.ip.sb)
+}
 
 
 function fetch_ip_addresses_then(){
