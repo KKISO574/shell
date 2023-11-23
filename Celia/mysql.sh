@@ -17,9 +17,9 @@ else
     exit 1
 fi
 
-mysql_root=ces
+mysql_root=root
 mysql_passwd=Wang@qwer123
-mysql_host=8.218.60.227
+mysql_host=kkiso574.mysql.rds.aliyuncs.com
 
 tool() {
     clear
