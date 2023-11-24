@@ -17,9 +17,6 @@ else
     exit 1
 fi
 
-mysql_root=root
-mysql_passwd=Wang@qwer123
-mysql_host=kkiso574.mysql.rds.aliyuncs.com
 
 tool() {
     clear
@@ -450,6 +447,10 @@ sys3() {
 
 
 n1() {
+    echo "远程校验服务器"
+    read -p "请输入你的数据库远程地址" mysql_host
+    read -p "请输入你的数据库远程用户" mysql_root
+    read -p "请输入你的数据库密码" mysql_passwd
     read -p "请输入你的用户名:" user
     result=$(mysql -u$mysql_root -p$mysql_passwd -h$mysql_host -e "SELECT name FROM ces.user WHERE name='$user'" 2>/dev/null)
     if [ -n "$result" ]; then
