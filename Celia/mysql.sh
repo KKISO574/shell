@@ -475,7 +475,7 @@ n2() {
     result=$(mysql -u$mysql_root -p$mysql_passwd -h$mysql_host -e "SELECT name FROM ces.user WHERE name='$reid'" 2>/dev/null)
     if [ -z "$result" ]; then
         read -p "请输入注册的密码：" redi_passwd
-        if echo "$redi_passwd" | grep -E '[a-z]' | grep -E '[A-Z]' | grep -E '[0-9]' | grep -E '[@#$%^&*!]' >/dev/null && [ ${#redi_passwd} -ge 8 -a ${#redi_passwd} -le 10 ] ; then
+        if echo "$redi_passwd" | grep -E '[a-z]' | grep -E '[A-Z]' | grep -E '[0-9]' | grep -E '[@#$%^&*!]' >/dev/null && [ ${#redi_passwd} -ge 8 -a ${#redi_passwd} -le 16 ] ; then
             echo "密码符合。"
             mysql -u$mysql_root -p$mysql_passwd -h$mysql_host -e "INSERT INTO ces.user SET name='$reid', passwd='$redi_passwd'" >/dev/null 
         else
