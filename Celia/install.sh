@@ -1,14 +1,14 @@
 #!/bin/sh
 
 install_soft() {
-    sleep 1
+    sleep 3
     
     echo "正在安装请耐心等候"
     yum install -y wget curl vim net-tools unzip tar zip
 }
 
 install() {
-    sleep 1
+    sleep 3
     
     echo "开始安装"
     yum install -y java-1.8.0-openjdk.x86_64 mariadb-server
@@ -52,11 +52,49 @@ install() {
 }
 
 tomcat() {
-    sleep 1
-    echo "开始下载"
-    wegt https://cloud.7boe.top/d/HKOSS/%E8%BD%AF%E4%BB%B6%E5%8C%85/apache-tomcat-8.5.96.zip?sign=PZ9SMydzs8HhEzvmdjFzs_yPJBO85yROlhMdqNmSYCA=:0 -O tomcat.zip
+    sleep 3
+    echo "开始下载 Tomcat"
+    wget -O tomcat.zip https://cloud.7boe.top/d/HKOSS/%E8%BD%AF%E4%BB%B6%E5%8C%85/apache-tomcat-8.5.96.zip?sign=PZ9SMydzs8HhEzvmdjFzs_yPJBO85yROlhMdqNmSYCA=:0
+    
+    # 解压 Tomcat
+    unzip tomcat.zip
+    echo "Tomcat 下载并解压完成"
+    mv apache-tomcat-8.5.96/ tomcat8
+    # 授权执行权限
+    chmod +x /root/tomcat8/bin/*.sh
 
+    # 创建 systemd 服务单元文件
+    cat > /etc/systemd/system/tomcat.service << EOF
+[Unit]
+Description=Tomcat
+After=syslog.target network.target remote-fs.target nss-lookup.target
 
+[Service]
+Type=forking
+ExecStart=/root/tomcat8/bin/startup.sh
+ExecReload=/root/tomcat8/bin/startup.sh && /root/tomcat8/bin/shutdown.sh
+ExecStop=/root/tomcat8/bin/shutdown.sh
+SuccessExitStatus=143
+User=root
+Group=root
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    # 启动 Tomcat 服务
+    systemctl start tomcat
+    if systemctl is-active --quiet tomcat; then
+        echo "Tomcat 服务已启动"
+
+        # 设置 Tomcat 开机自启动
+        systemctl enable tomcat
+        echo "Tomcat 设置为开机自启动"
+    else
+        echo "Tomcat 服务未启动，请检查安装过程中是否有错误"
+        exit 1
+    fi
 }
 
 main_menu() {
@@ -64,7 +102,7 @@ main_menu() {
     echo "请输入你要使用的功能的序号:                     "
     echo "1. 安装常用软件包"
     echo "2. 安装 JDK、MySQL"
-    echo "3. 下载并且安装tomcat"
+    echo "3. 下载并且安装 Tomcat"
     read -p "请输入对应功能的序号：" choose
     case $choose in 
         1)
@@ -73,8 +111,8 @@ main_menu() {
         2)
         install
         ;;
-        3）
-        Tomcat
+        3)
+        tomcat
         ;;
         *)
         echo "输入错误返回"
