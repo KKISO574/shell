@@ -64,7 +64,7 @@ yum install wegt curl vim net-tools
 
 
 
-function time(){
+time(){
 	yum -y install ntpdate	&> /dev/null
 	timedatectl set-timezone Asia/Shanghai
 	ntpdate ntp1.aliyun.com
