@@ -25,7 +25,8 @@ tool(){
 echo "========================"
 echo "请输入你要使用的功能的序号:                     "
 echo "1.校对时间"
-echo "2.安装jdk以及mysql"
+echo "2.安装常用软件包"
+echo "3.安装jdk以及mysql和下载tomcat"
 read -p "请输入对应功能的序号：" choose
 }
 case $choose in 
@@ -33,6 +34,9 @@ case $choose in
     time
     ;;
     2)
+    soft
+    ;;
+    3)
     install
     ;;
     *)
@@ -43,18 +47,26 @@ esac
 
 
 
-
-
-
-
 install(){
 yum install -y java-1.8.0-openjdk.x86_64 mariadb-server
 
+}
+
+soft(){
+yum install wegt curl vim net-tools 
+
+
+
+
 
 }
+
+
+
 
 function time(){
 	yum -y install ntpdate	&> /dev/null
 	timedatectl set-timezone Asia/Shanghai
 	ntpdate ntp1.aliyun.com
+    date
 }
