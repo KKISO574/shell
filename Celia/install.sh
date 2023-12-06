@@ -82,7 +82,8 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 EOF
-
+    #重载服务
+    systemctl daemon-reload
     # 启动 Tomcat 服务
     systemctl start tomcat
     if systemctl is-active --quiet tomcat; then
