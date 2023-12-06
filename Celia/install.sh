@@ -1,13 +1,13 @@
 #!/bin/sh
 
-time() {
+set_time() {
     yum -y install ntpdate &> /dev/null
     timedatectl set-timezone Asia/Shanghai
     ntpdate ntp1.aliyun.com
     date
 }
 
-soft() {
+install_soft() {
     yum install -y wget curl vim net-tools
 }
 
@@ -15,7 +15,7 @@ install() {
     yum install -y java-1.8.0-openjdk.x86_64 mariadb-server
 }
 
-tool() {
+main_menu() {
     echo "========================"
     echo "请输入你要使用的功能的序号:                     "
     echo "1. 校对时间"
@@ -24,17 +24,17 @@ tool() {
     read -p "请输入对应功能的序号：" choose
     case $choose in 
         1)
-        time
+        set_time
         ;;
         2)
-        soft
+        install_soft
         ;;
         3)
         install
         ;;
         *)
         echo "输入错误返回"
-        tool
+        main_menu
         ;;
     esac
 }
@@ -60,4 +60,4 @@ else
 fi
 
 # 开始循环
-tool
+main_menu
