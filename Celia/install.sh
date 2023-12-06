@@ -8,6 +8,30 @@ install_soft() {
 install() {
     echo "正在安装请耐心等候"
     yum install -y java-1.8.0-openjdk.x86_64 mariadb-server
+
+    # 检查是否安装成功
+    if [ $? -eq 0 ]; then
+        echo "软件安装成功"
+        
+        # 检查 java 命令是否存在
+        if command -v java &> /dev/null; then
+            echo "Java 已安装"
+        else
+            echo "Java 未安装，请检查安装过程中是否有错误"
+            exit 1
+        fi
+
+        # 检查 mysql 命令是否存在
+        if command -v mysql &> /dev/null; then
+            echo "MySQL 已安装"
+        else
+            echo "MySQL 未安装，请检查安装过程中是否有错误"
+            exit 1
+        fi
+    else
+        echo "软件安装失败"
+        exit 1
+    fi
 }
 
 main_menu() {
