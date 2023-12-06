@@ -1,12 +1,16 @@
 #!/bin/sh
 
 install_soft() {
+    sleep 1
+    
     echo "正在安装请耐心等候"
-    yum install -y wget curl vim net-tools
+    yum install -y wget curl vim net-tools unzip tar zip
 }
 
 install() {
-    echo "正在安装请耐心等候"
+    sleep 1
+    
+    echo "开始安装"
     yum install -y java-1.8.0-openjdk.x86_64 mariadb-server
 
     # 检查是否安装成功
@@ -47,11 +51,20 @@ install() {
     fi
 }
 
+tomcat() {
+    sleep 1
+    echo "开始下载"
+    wegt https://cloud.7boe.top/d/HKOSS/%E8%BD%AF%E4%BB%B6%E5%8C%85/apache-tomcat-8.5.96.zip?sign=PZ9SMydzs8HhEzvmdjFzs_yPJBO85yROlhMdqNmSYCA=:0 -O tomcat.zip
+
+
+}
+
 main_menu() {
     echo "========================"
     echo "请输入你要使用的功能的序号:                     "
     echo "1. 安装常用软件包"
-    echo "2. 安装 JDK、MySQL 和下载 Tomcat"
+    echo "2. 安装 JDK、MySQL"
+    echo "3. 下载并且安装tomcat"
     read -p "请输入对应功能的序号：" choose
     case $choose in 
         1)
@@ -59,6 +72,9 @@ main_menu() {
         ;;
         2)
         install
+        ;;
+        3）
+        Tomcat
         ;;
         *)
         echo "输入错误返回"
