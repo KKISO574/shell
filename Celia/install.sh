@@ -95,12 +95,30 @@ EOF
     fi
 }
 
+mysql_set() {
+    echo "开始初始化"
+    sleep 2
+    mysql_secure_installation
+    
+    read -p "输入你要创建的远程账户: " user
+    read -p "输入你远程账户的密码: " passwd
+
+    mysql -e "CREATE USER '$user'@'%' IDENTIFIED BY '$passwd';"
+    mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$user'@'%' WITH GRANT OPTION;"
+    mysql -e "FLUSH PRIVILEGES;"
+    mysql -e "EXIT;"
+    echo "尝试远程连接吧"
+
+}
+
+
 main_menu() {
     echo "========================"
     echo "请输入你要使用的功能的序号:                     "
     echo "1. 安装常用软件包"
     echo "2. 安装 JDK、MySQL"
     echo "3. 下载并且安装 Tomcat"
+    echo "4. 开始初始化mysql"
     read -p "请输入对应功能的序号：" choose
     case $choose in 
         1)
