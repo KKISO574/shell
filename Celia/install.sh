@@ -2,7 +2,7 @@
 
 install_soft() {
     echo "正在安装请耐心等候"
-    yum install -y wget curl vim net-tools  
+    yum install -y wget curl vim net-tools htop
 }
 
 install() {
@@ -26,6 +26,19 @@ install() {
             echo "MySQL 已安装"
         else
             echo "MySQL 未安装，请检查安装过程中是否有错误"
+            exit 1
+        fi
+
+        # 启动 MariaDB 服务
+        systemctl start mariadb
+        if systemctl is-active --quiet mariadb; then
+            echo "MySQL 服务已启动"
+            
+            # 设置 MariaDB 开机自启动
+            systemctl enable mariadb
+            echo "MySQL 设置为开机自启动"
+        else
+            echo "MySQL 服务未启动，请检查安装过程中是否有错误"
             exit 1
         fi
     else
