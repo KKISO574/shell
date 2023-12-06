@@ -2,7 +2,7 @@
 
 install_soft() {
     echo "正在安装请耐心等候"
-    yum install -y wget curl vim net-tools htop 
+    yum install -y wget curl vim net-tools  
 }
 
 install() {
