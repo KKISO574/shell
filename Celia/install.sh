@@ -66,18 +66,15 @@ tomcat() {
     # 创建 systemd 服务单元文件
     cat > /etc/systemd/system/tomcat.service << EOF
 [Unit]
-Description=Tomcat
-After=syslog.target network.target remote-fs.target nss-lookup.target
+Description=tomcat
+After=network.target
 
 [Service]
 Type=forking
 ExecStart=/root/tomcat8/bin/startup.sh
 ExecReload=/root/tomcat8/bin/startup.sh && /root/tomcat8/bin/shutdown.sh
 ExecStop=/root/tomcat8/bin/shutdown.sh
-SuccessExitStatus=143
-User=root
-Group=root
-Restart=on-failure
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
