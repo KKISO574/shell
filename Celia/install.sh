@@ -107,8 +107,6 @@ mysql_set() {
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$user'@'%' WITH GRANT OPTION;"
     mysql -e "FLUSH PRIVILEGES;"
     mysql -e "EXIT;"
-    echo "尝试远程连接吧"
-
 }
 
 
