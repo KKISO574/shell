@@ -130,6 +130,9 @@ main_menu() {
         3)
         tomcat
         ;;
+        4)
+        mysql_set
+        ;;
         *)
         echo "输入错误返回"
         main_menu
