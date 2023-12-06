@@ -98,16 +98,33 @@ EOF
 mysql_set() {
     echo "开始初始化"
     sleep 2
-    mysql_secure_installation
-    
-    read -p "输入你要创建的远程账户: " user
-    read -p "输入你远程账户的密码: " passwd
 
-    mysql -e "CREATE USER '$user'@'%' IDENTIFIED BY '$passwd';"
-    mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$user'@'%' WITH GRANT OPTION;"
-    mysql -e "FLUSH PRIVILEGES;"
-    mysql -e "EXIT;"
+    read -s -p "输入 root 用户的数据库密码，接下来是数据库初始化步骤还要在里面输入一次: " mysql_passwd
+    echo  # 换行
+
+    # 运行 MySQL 安全初始化
+    mysql_secure_installation <<< "y
+    $mysql_passwd
+    $mysql_passwd
+    y
+    y
+    y
+    y
+    "
+
+    # 输入你要创建的远程账户和密码
+    read -p "输入你要创建的远程账户: " user
+    read -s -p "输入你远程账户的密码: " passwd
+    echo  # 换行
+
+    # 使用 root 用户权限创建远程账户
+    mysql -uroot -p"$mysql_passwd" -e "CREATE USER '$user'@'%' IDENTIFIED BY '$passwd';"
+    mysql -uroot -p"$mysql_passwd" -e "GRANT ALL PRIVILEGES ON *.* TO '$user'@'%' WITH GRANT OPTION;"
+    mysql -uroot -p"$mysql_passwd" -e "FLUSH PRIVILEGES;"
+
+    echo "MySQL 初始化完成，尝试远程连接吧"
 }
+
 
 
 main_menu() {
