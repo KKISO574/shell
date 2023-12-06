@@ -1,35 +1,26 @@
 #!/bin/sh
 
-set_time() {
-    yum -y install ntpdate &> /dev/null
-    timedatectl set-timezone Asia/Shanghai
-    ntpdate ntp1.aliyun.com
-    date
-}
-
 install_soft() {
-    yum install -y wget curl vim net-tools
+    echo "正在安装请耐心等候"
+    yum install -y wget curl vim net-tools htop 
 }
 
 install() {
+    echo "正在安装请耐心等候"
     yum install -y java-1.8.0-openjdk.x86_64 mariadb-server
 }
 
 main_menu() {
     echo "========================"
     echo "请输入你要使用的功能的序号:                     "
-    echo "1. 校对时间"
-    echo "2. 安装常用软件包"
-    echo "3. 安装 JDK、MySQL 和下载 Tomcat"
+    echo "1. 安装常用软件包"
+    echo "2. 安装 JDK、MySQL 和下载 Tomcat"
     read -p "请输入对应功能的序号：" choose
     case $choose in 
         1)
-        set_time
-        ;;
-        2)
         install_soft
         ;;
-        3)
+        2)
         install
         ;;
         *)
