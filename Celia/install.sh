@@ -70,3 +70,6 @@ function time(){
 	ntpdate ntp1.aliyun.com
     date
 }
+
+#循环
+tool
