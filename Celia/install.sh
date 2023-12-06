@@ -99,7 +99,7 @@ mysql_set() {
     echo "开始初始化"
     sleep 2
 
-    read -s -p "输入 root 用户的数据库密码，接下来是数据库初始化步骤还要在里面输入一次: " mysql_passwd
+    read -s -p "输入 root 用户的数据库密码: " mysql_passwd
     echo  # 换行
 
     # 运行 MySQL 安全初始化
@@ -121,8 +121,11 @@ mysql_set() {
     mysql -uroot -p"$mysql_passwd" -e "CREATE USER '$user'@'%' IDENTIFIED BY '$passwd';"
     mysql -uroot -p"$mysql_passwd" -e "GRANT ALL PRIVILEGES ON *.* TO '$user'@'%' WITH GRANT OPTION;"
     mysql -uroot -p"$mysql_passwd" -e "FLUSH PRIVILEGES;"
-
+if [ echo $? -eq 0 ];then
     echo "MySQL 初始化完成，尝试远程连接吧"
+    else
+    echo "root的数据库密码有问题"
+fi
 }
 
 
